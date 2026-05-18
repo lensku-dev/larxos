@@ -117,8 +117,11 @@ echo "Target:     /dev/$TARGET_DRIVE"
 echo ""
 read -p "Press [Enter] to launch the disk partitioner..."
 
-# Open up cfdisk so the user can easily format the drive with a UI
+# Open up cfdisk on the selected drive
 cfdisk "/dev/$TARGET_DRIVE"
 
-# Run the installer script now that setup is done
-./main-install.sh
+# Run the formatting and mounting
+source ./disk-partition.sh
+
+# Run the main script
+source ./main-install.sh
