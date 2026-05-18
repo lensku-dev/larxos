@@ -47,6 +47,13 @@ cp -r /usr/share/larxos/config/* "/mnt/home/$NEW_USERNAME/.config/"
 # Change the ownership of the dotfiles so the user
 arch-chroot /mnt chown -R "$NEW_USERNAME:$NEW_USERNAME" "/home/$NEW_USERNAME/.config"
 
+# Open up cfdisk on the selected drive
+cfdisk "/dev/$TARGET_DRIVE"
+
+# Run scripts
+source ./disk-partition.sh
+source ./main-install.sh
+
 echo "=========================================="
 echo "      LarxOS Installation Complete!       "
 echo "=========================================="
