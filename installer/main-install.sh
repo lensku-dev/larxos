@@ -5,13 +5,13 @@ echo "=========================================="
 echo "      Deploying LarxOS Base Files         "
 echo "=========================================="
 
-# Install the base system and core apps
-pacstrap -K /mnt base linux linux-firm base-devel alacritty fish git fastfetch
+# Install the base system plus the core apps and the bootloader
+pacstrap -K /mnt base linux linux-firm base-devel alacritty fish git fastfetch grub efibootmgr
 
-# Generate the partition map so the system knows how to mount itself on boot
+# Generate the partition map
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Apply the hostname
+# Hostname
 echo "$HOSTNAME" > /mnt/etc/hostname
 
 echo "=========================================="
@@ -37,22 +37,25 @@ echo "root:$ROOT_PASS" | arch-chroot /mnt chpasswd
 echo "$NEW_USERNAME:$USER_PASS" | arch-chroot /mnt chpasswd
 
 echo "=========================================="
+echo "        Installing GRUB Bootloader        "
+echo "=========================================="
+
+echo "Deploying GRUB binary files to the EFI partition..."
+arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id="LarxOS"
+
+echo "Generating the main GRUB configuration file..."
+arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+
+echo "=========================================="
 echo "     Deploying Custom Configurations      "
 echo "=========================================="
 
-# Apply the dotfiles
+# Move the dotfiles to the right directory
 mkdir -p "/mnt/home/$NEW_USERNAME/.config"
 cp -r /usr/share/larxos/config/* "/mnt/home/$NEW_USERNAME/.config/"
 
-# Change the ownership of the dotfiles so the user
+# Change ownership of the dotfiles
 arch-chroot /mnt chown -R "$NEW_USERNAME:$NEW_USERNAME" "/home/$NEW_USERNAME/.config"
-
-# Open up cfdisk on the selected drive
-cfdisk "/dev/$TARGET_DRIVE"
-
-# Run scripts
-source ./disk-partition.sh
-source ./main-install.sh
 
 echo "=========================================="
 echo "      LarxOS Installation Complete!       "
