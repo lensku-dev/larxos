@@ -55,4 +55,4 @@ done
 echo ""
 echo "Proceeding with user setup..."
 
-source ./user-setup
+source ./user-setup.sh
