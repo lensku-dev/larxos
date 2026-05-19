@@ -56,3 +56,8 @@ cp -r /usr/share/larxos/config/* "/mnt/home/$NEW_USERNAME/.config/"
 
 # Change ownership of the dotfiles
 arch-chroot /mnt chown -R "$NEW_USERNAME:$NEW_USERNAME" "/home/$NEW_USERNAME/.config"
+
+echo "=========================================="
+echo "      LarxOS Installation Complete!       "
+echo "=========================================="
+echo "You can now safely unmount and reboot into LarxOS."
