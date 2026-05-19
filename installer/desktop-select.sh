@@ -53,4 +53,4 @@ while true; do
 done
 
 echo ""
-echo "Proceeding with disk configuration..."
+echo "Proceeding with user setup..."
