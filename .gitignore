@@ -1,7 +1,0 @@
-*.log
-*.bak
-*~
-.DS_Store
-Thumbs.db
-.fish_history
-.bash_history
